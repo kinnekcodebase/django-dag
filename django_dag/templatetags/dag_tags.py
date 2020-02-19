@@ -1,3 +1,4 @@
+from builtins import str
 # dict recurse template tag for django
 # from http://djangosnippets.org/snippets/1974/
 
@@ -37,10 +38,10 @@ class RecurseDictNode(template.Node):
                     output.append(self.renderCallback(context, child_items, level + 1))
                 else:
                     try:
-                        child_items = v.items()
+                        child_items = list(v.items())
                         output.append(self.renderCallback(context, child_items, level + 1))
                     except:
-                        output.append(unicode(v))
+                        output.append(str(v))
 
             if 'endloop' in self.nodeList:
                 output.append(self.nodeList['endloop'].render(context))
@@ -55,7 +56,7 @@ class RecurseDictNode(template.Node):
         return ''.join(output)
 
     def render(self, context):
-        vals = self.var.resolve(context).items()
+        vals = list(self.var.resolve(context).items())
         output = self.renderCallback(context, vals, 1)
         return output
 

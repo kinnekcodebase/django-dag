@@ -1,3 +1,4 @@
+from builtins import object
 
 from django.db.models import CharField
 from django_dag.models import node_factory, edge_factory
@@ -12,7 +13,7 @@ class ConcreteNode(node_factory('ConcreteEdge')):
     def __str__(self):
         return '# %s' % self.name
 
-    class Meta:
+    class Meta(object):
         app_label = 'django_dag'
 
 
@@ -22,7 +23,7 @@ class ConcreteEdge(edge_factory('ConcreteNode', concrete=False)):
     """
     name = CharField(max_length=32, blank=True, null=True)
 
-    class Meta:
+    class Meta(object):
         app_label = 'django_dag'
 
 
