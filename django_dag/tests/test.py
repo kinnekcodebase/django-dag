@@ -1,10 +1,11 @@
+from builtins import range
 import multiprocessing
 
 from django.test import TestCase
 from django.shortcuts import render_to_response
 from django.core.exceptions import ValidationError
 from django_dag.tree_test_output import expected_tree_output
-from .models import ConcreteNode, ConcreteEdge
+from django_dag.tests.models import ConcreteNode, ConcreteEdge
 
 
 

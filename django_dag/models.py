@@ -5,6 +5,8 @@ Directed Acyclic Graph structure.
 Some ideas stolen from: from https://github.com/stdbrouw/django-treebeard-dag
 
 """
+from past.builtins import basestring
+from builtins import object
 
 from django.db import models
 from django.core.exceptions import ValidationError
@@ -22,7 +24,7 @@ class NodeBase(object):
     Main node abstract model
     """
 
-    class Meta:
+    class Meta(object):
         ordering = ('-id',)
 
     def __unicode__(self):
@@ -90,7 +92,7 @@ class NodeBase(object):
         """
         if cached_results is None:
             cached_results = dict()
-        if self in cached_results.keys():
+        if self in cached_results:
             return cached_results[self]
         else:
             res = set()
@@ -106,7 +108,7 @@ class NodeBase(object):
         """
         if cached_results is None:
             cached_results = dict()
-        if self in cached_results.keys():
+        if self in cached_results:
             return cached_results[self]
         else:
             res = set()
@@ -122,7 +124,7 @@ class NodeBase(object):
         """
         if cached_results is None:
             cached_results = dict()
-        if self in cached_results.keys():
+        if self in cached_results:
             return cached_results[self]
         else:
             res = set()
@@ -138,7 +140,7 @@ class NodeBase(object):
         """
         if cached_results is None:
             cached_results = dict()
-        if self in cached_results.keys():
+        if self in cached_results:
             return cached_results[self]
         else:
             res = set()
@@ -283,7 +285,7 @@ def edge_factory(node_model, child_to_field = "id", parent_to_field = "id", conc
         node_model_name = node_model._meta.model_name
 
     class Edge(base_model):
-        class Meta:
+        class Meta(object):
             abstract = not concrete
 
         parent = models.ForeignKey(node_model, related_name = "%s_child" % node_model_name, to_field = parent_to_field, on_delete=models.CASCADE)
@@ -304,7 +306,7 @@ def node_factory(edge_model, children_null = True, base_model = models.Model):
     Dag Node factory
     """
     class Node(base_model, NodeBase):
-        class Meta:
+        class Meta(object):
             abstract        = True
 
         children  = models.ManyToManyField(
